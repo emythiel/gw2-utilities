@@ -18,15 +18,15 @@ function KillMutex($mutexName) {
         if ($mutexHandles) {
             $mutexHandleHex = $mutexHandles | ForEach-Object { if ($_ -match '\b([0-9A-F]+)\b') { $matches[1] } }
 
-            Write-Host "Found process ID: $($process.Id)"
-            Write-Host "Found mutex handle (Hex): $mutexHandleHex"
+            Write-Host "Found process ID: $($process.Id)" -ForegroundColor DarkGreen
+            Write-Host "Found mutex handle (Hex): $mutexHandleHex" -ForegroundColor DarkGreen
 
             # Wait before closing
             Start-Sleep -Seconds 1
 
             # Kill Mutex
             & $handleExePath -accepteula -nobanner -p $($process.Id) -c $mutexHandleHex -y
-            Write-Host "Mutex closed successfully."
+            Write-Host "Mutex closed successfully." -ForegroundColor DarkGreen
             
             # Wait for a moment to ensure the process has time to fully close and release the mutex
             Start-Sleep -Seconds 1
@@ -42,7 +42,7 @@ function FindLocalDatFolder($accountNumber) {
     if ($localDatFolder) {
         return $localDatFolder.FullName
     } else {
-        Write-Host "No matching folder found for account: $accountFolderName"
+        Write-Host "No matching folder found for account: $accountFolderName" -ForegroundColor Red
         return $null
     }
 }
@@ -66,7 +66,7 @@ function MultiboxAccounts($startAccount, $endAccount, $batchSize) {
             }
         }
         # Wait for user input before continuing to the next batch
-        Read-Host "Press Enter to continue..."
+        Read-Host "Press Enter to continue..." -ForegroundColor Yellow
     }
 
     # Clear history and go back to main menu once done
@@ -75,7 +75,8 @@ function MultiboxAccounts($startAccount, $endAccount, $batchSize) {
 }
 
 function SelectSpecificAccount() {
-    $accountNumber = Read-Host "Enter the account number to launch"
+    Write-Host "Enter the account number to launch" -ForegroundColor Yellow
+    $accountNumber = Read-Host
     $accountNumber = [int]$accountNumber # Ensure that accountNumber is treated as an integer
     $localDatFolder = FindLocalDatFolder $accountNumber
     if ($localDatFolder -ne $null) {
