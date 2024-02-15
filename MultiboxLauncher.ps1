@@ -48,11 +48,17 @@ function FindLocalDatFolder($accountNumber) {
 }
 
 function LaunchMainAccount() {
+    cls
+    Write-Host "Launching main account" -ForegroundColor Yellow
     LaunchGame $env:USERPROFILE "-shareArchive"
     KillMutex $mutexName
+    # Clear history and go back to main menu once done
+    cls
+    ShowMenu
 }
 
 function MultiboxAccounts($startAccount, $endAccount, $batchSize) {
+    cls
     for ($i = $startAccount; $i -le $endAccount; $i += $batchSize) {
         $batchEnd = [Math]::Min($i + $batchSize - 1, $endAccount)
         for ($j = $i; $j -le $batchEnd; $j++) {
@@ -75,6 +81,7 @@ function MultiboxAccounts($startAccount, $endAccount, $batchSize) {
 }
 
 function SelectSpecificAccount() {
+    cls
     Write-Host "Enter the account number to launch" -ForegroundColor Yellow
     $accountNumber = Read-Host
     $accountNumber = [int]$accountNumber # Ensure that accountNumber is treated as an integer
@@ -168,10 +175,12 @@ function ShowMenu() {
     Write-Host "[5] Update All Local.dat" -ForegroundColor DarkYellow
     Write-Host $arcDpsOption -ForegroundColor DarkYellow
     Write-Host ""
+    Write-Host "[0] Exit" -ForegroundColor DarkYellow
+    Write-Host ""
     Write-Host "==========================" -ForegroundColor DarkGray
     Write-Host ""
 
-    Write-Host "Enter your choice: $choice" -ForegroundColor Yellow
+    Write-Host "Input your choice and press 'ENTER' to confirm: $choice" -ForegroundColor Yellow
     $choice = Read-Host
 
     switch ($choice) {
@@ -181,6 +190,7 @@ function ShowMenu() {
         "4" { SelectSpecificAccount }
         "5" { UpdateAllLocalDat }
         "6" { ToggleArcDPS }
+        "0" { Exit }
         default {
             cls
             Write-Host "`n`nInvalid choice. Please try again." -ForegroundColor Yellow
