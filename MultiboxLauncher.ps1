@@ -59,6 +59,8 @@ function LaunchMainAccount() {
 
 function MultiboxAccounts($startAccount, $endAccount, $batchSize) {
     cls
+    
+    Write-Host "Launching alt accounts $startAccount to $endAccount in batches of $batchSize" -ForegroundColor Cyan
     for ($i = $startAccount; $i -le $endAccount; $i += $batchSize) {
         $batchEnd = [Math]::Min($i + $batchSize - 1, $endAccount)
         for ($j = $i; $j -le $batchEnd; $j++) {
@@ -66,13 +68,16 @@ function MultiboxAccounts($startAccount, $endAccount, $batchSize) {
             $formattedAccountNumber = "{0:D2}" -f $accountNumber # Format account number to be 01, 02, ...
             $localDatFolder = FindLocalDatFolder $formattedAccountNumber
 
+            Write-Host "Launching account $accountNumber" -ForegroundColor Cyan
+
             if ($localDatFolder -ne $null) {
                 LaunchGame $localDatFolder "-shareArchive"
                 KillMutex $mutexName  # Close mutex if it's open
             }
         }
         # Wait for user input before continuing to the next batch
-        Read-Host "Press Enter to continue..." -ForegroundColor Yellow
+        Write-Host "Press 'ENTER' to continue..." -ForegroundColor Yellow
+        Read-Host
     }
 
     # Clear history and go back to main menu once done
