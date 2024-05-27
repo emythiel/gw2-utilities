@@ -40,7 +40,7 @@ def get_guild_storage():
 # Post to Discord Webhook
 def post_to_discord(embeds):
     payload = {
-        "content": "The following food is running low in the guild stash!",
+        "content": "The following food is running low in the guild storage!",
         "embeds": embeds,
         "attachments": []
     }
