@@ -10,7 +10,7 @@ Powershell Script for managin/launching multiple Guild Wars 2 accounts
 ---
 
 ### Auto-clicker
-`AutoClicker.ahk`  
+`AutoClick.ahk`  
 Simple auto-clicker script for autohotkey.  
 Hold Right-Control to click.
 
