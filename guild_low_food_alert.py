@@ -10,7 +10,7 @@ API_KEY = 'your_api_key'
 DISCORD_WEBHOOK_URL = 'your_discord_webhook_url'
 ITEM_THRESHOLD = 15
 
-# Array of objects of items to check
+# Array of items to check
 items_to_check = [
     {
         "id": 1078,
@@ -32,14 +32,14 @@ items_to_check = [
     },
 ]
 
-# GET API request
+# Fetch guild storage data from API
 def get_guild_storage():
     url = f'https://api.guildwars2.com/v2/guild/{GUILD_ID}/storage?access_token={API_KEY}'
     response = requests.get(url)
     response.raise_for_status()
     return response.json()
 
-# Post to Discord Webhook
+# Posts a message to the Discord webhook
 def post_to_discord(embeds):
     payload = {
         "content": "The following food is running low in the guild storage!",
@@ -49,6 +49,7 @@ def post_to_discord(embeds):
     response = requests.post(DISCORD_WEBHOOK_URL, json=payload)
     response.raise_for_status()
 
+# Main function to check item counts and post to Discord if threshold met
 def main():
     storage_data = get_guild_storage()
     embeds = []
@@ -74,4 +75,5 @@ def main():
     if embeds:
         post_to_discord(embeds)
 
+# Run main
 main()
