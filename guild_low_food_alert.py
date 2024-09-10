@@ -39,7 +39,7 @@ def get_guild_storage():
     response.raise_for_status()
     return response.json()
 
-# Posts a message to the Discord webhook
+# Post a message to the Discord webhook
 def post_to_discord(embeds):
     payload = {
         "content": "The following food is running low in the guild storage!",
