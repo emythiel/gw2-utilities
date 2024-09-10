@@ -74,5 +74,4 @@ def main():
     if embeds:
         post_to_discord(embeds)
 
-if __name__ == "__main__":
-    main()
+main()
