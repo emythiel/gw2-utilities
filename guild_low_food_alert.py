@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/bin/python3
 
 # Import requests and json
 import requests
