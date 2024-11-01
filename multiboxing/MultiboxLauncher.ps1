@@ -11,10 +11,10 @@ function LaunchGame($localDatFolder, $extraParameters) {
 
 function KillMutex($mutexName) {
     $gw2Processes = Get-Process -Name "Gw2-64"
-    
+
     foreach ($process in $gw2Processes) {
         $mutexHandles = & $handleExePath -accepteula -nobanner -p $($process.Id) -a | Select-String $mutexName
-        
+
         if ($mutexHandles) {
             $mutexHandleHex = $mutexHandles | ForEach-Object { if ($_ -match '\b([0-9A-F]+)\b') { $matches[1] } }
 
@@ -27,7 +27,7 @@ function KillMutex($mutexName) {
             # Kill Mutex
             & $handleExePath -accepteula -nobanner -p $($process.Id) -c $mutexHandleHex -y
             Write-Host "Mutex closed successfully." -ForegroundColor DarkGreen
-            
+
             # Wait for a moment to ensure the process has time to fully close and release the mutex
             Start-Sleep -Seconds 1
         }
@@ -59,7 +59,7 @@ function LaunchMainAccount() {
 
 function MultiboxAccounts($startAccount, $endAccount, $batchSize) {
     cls
-    
+
     Write-Host "Launching alt accounts $startAccount to $endAccount in batches of $batchSize" -ForegroundColor Cyan
     for ($i = $startAccount; $i -le $endAccount; $i += $batchSize) {
         $batchEnd = [Math]::Min($i + $batchSize - 1, $endAccount)
@@ -113,7 +113,7 @@ function UpdateAllLocalDat() {
             LaunchGame $localDatFolder ""
 
             Start-Sleep -Seconds 5  # Adjust as needed for update time
-            
+
             # Close Guild Wars 2
             Stop-Process -Name "Gw2-64" -Force
 
@@ -167,7 +167,7 @@ function ShowMenu() {
     } else {
         "[6] Toggle ArcDPS"
     }
-    
+
     Write-Host ""
     Write-Host "==========================" -ForegroundColor DarkGray
     write-Host ""
