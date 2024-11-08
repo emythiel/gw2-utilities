@@ -76,4 +76,5 @@ def main():
         post_to_discord(embeds)
 
 # Run main
-main()
+if __name__ == '__main__':
+    main()
